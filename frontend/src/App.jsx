@@ -19,6 +19,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DialogFooter } from "./components/ui/dialog";
+import InputCard from "./components/InputCard";
 
 function App() {
   const [cards, setCards] = useState([]);
@@ -45,6 +46,33 @@ function App() {
     fetchCards();
   }, []);
 
+  // add card
+  const addCard = async (e, card) => {
+    try {
+      e.preventDefault();
+      const res = await fetch("http://localhost:3000/addcard", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(card),
+      });
+
+      const data = await res.json();
+
+      if (res.status === 201) {
+        toast(`${data.msg}`, {
+          description: new Date().toLocaleString(),
+        });
+        setCards([...cards, card]);
+      } else {
+        toast(`${data.error}`, {
+          description: new Date().toLocaleString(),
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // delete card
   const deleteCard = async (_id) => {
     try {
@@ -60,6 +88,10 @@ function App() {
           description: new Date().toLocaleString(),
         });
         setCards(cards.filter((card) => card._id !== _id));
+      } else {
+        toast(`${data.error}`, {
+          description: new Date().toLocaleString(),
+        });
       }
     } catch (error) {
       console.log("error", error);
@@ -67,8 +99,10 @@ function App() {
   };
 
   return (
-    <>
-      <div className="p-16 flex flex-wrap justify-evenly">
+    <div className="p-16">
+      <InputCard addCard={addCard} />
+      {/* Show Cards */}
+      <div className="flex flex-wrap justify-evenly">
         {cards.map((card) => (
           <Card key={card._id} className="w-[350px] m-5">
             <CardHeader>
@@ -86,7 +120,7 @@ function App() {
               </ul>
               <div className="mt-2">
                 {card.socialMedias.map((socialMedia, index) => (
-                  <Button key={index} variant="default" className="m-1">
+                  <Button key={index} variant="secondary" className="m-1">
                     <a href={socialMedia.url} target="_blank">
                       {socialMedia.name}
                     </a>
@@ -95,7 +129,7 @@ function App() {
               </div>
             </CardContent>
             <CardFooter className="flex flex-wrap justify-between">
-              <Button variant="secondary">Edit</Button>
+              <Button variant="outline">Edit</Button>
               <Dialog>
                 <DialogTrigger>
                   <Button variant="destructive">Delete</Button>
@@ -118,7 +152,7 @@ function App() {
         ))}
       </div>
       <Toaster />
-    </>
+    </div>
   );
 }
 
