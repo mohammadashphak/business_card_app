@@ -6,16 +6,13 @@ const cardSchema = new mongoose.Schema({
     required: true,
   },
   description: {
-    type: String,
-    required: true,
+    type: String
   },
   interests: {
     type: [String],
-    required: true,
   },
   socialMedias: {
     type: [{ name: String, url: String }],
-    required: true,
   },
 });
 
