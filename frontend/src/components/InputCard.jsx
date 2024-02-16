@@ -19,6 +19,7 @@ const InputCard = (props) => {
     socialMedias: [{ name: "", url: "" }],
   });
 
+  // inputs change for add card
   function handleInterestInputChange(e, index) {
     let newInterests = [...card.interests];
 
@@ -40,6 +41,7 @@ const InputCard = (props) => {
     newSocialMedias[index].url = e.target.value;
     setCard({ ...card, socialMedias: newSocialMedias });
   }
+
   return (
     <div className="flex justify-center mb-8">
       <Card className="w-[650px]">
@@ -81,7 +83,7 @@ const InputCard = (props) => {
 
               {/* description*/}
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">Description</Label>
+                <Label htmlFor="description">Description</Label>
                 <Input
                   type="text"
                   id="description"
@@ -97,7 +99,7 @@ const InputCard = (props) => {
 
               {/* interest */}
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">Interests</Label>
+                <Label htmlFor="interests">Interests</Label>
                 {card.interests.map((interest, index) => (
                   <div key={index}>
                     <Input
@@ -141,7 +143,7 @@ const InputCard = (props) => {
 
               {/* Social Medias */}
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">Social Media</Label>
+                <Label htmlFor="socialMedias">Social Media</Label>
                 {card.socialMedias.map((socialMedia, index) => (
                   <div key={index}>
                     <Input
