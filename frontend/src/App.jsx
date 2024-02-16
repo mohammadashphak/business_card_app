@@ -171,6 +171,7 @@ function App() {
 
   return (
     <>
+      <Header />
       <div className="p-14">
         <InputCard
           addCard={addCard}
@@ -181,8 +182,8 @@ function App() {
 
         {/* Show Cards */}
         <div className="flex flex-wrap justify-evenly">
-          {cards.map((card) => (
-            <Card key={card._id} className="w-[350px] m-5">
+          {cards.map((card, index) => (
+            <Card key={index} className="w-[350px] m-5">
               <CardHeader>
                 <CardTitle>{card.name}</CardTitle>
                 <CardDescription>{card.description}</CardDescription>
